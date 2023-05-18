@@ -5,7 +5,7 @@ from api.kafka import run_kafka_producer
 from api.log import sendLog
 
 
-@repeat(every().day.at("00:05"))
+@repeat(every().day.at("00:01"))
 def kafka_producer_job():
     run_kafka_producer()
 
