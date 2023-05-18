@@ -1,8 +1,9 @@
 from typing import Union
 from fastapi import FastAPI
 
-app=FastAPI()
+app = FastAPI()
 
-@app.get("/")
+
+@app.get("/ping")
 def index():
-    return "Hello!"
+    return {"Ping": "Pong!"}
