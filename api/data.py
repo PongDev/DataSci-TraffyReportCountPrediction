@@ -1,59 +1,77 @@
-import asyncio
 from prisma import Prisma
-from prisma.models import ReportHistory
-from datetime import datetime
+from pydantic import BaseModel
+from datetime import datetime, timedelta
+import csv
+
+
+class DBData(BaseModel):
+    date: str
+    region: str
+    obstacle: int
+    canal: int
+    security: int
+    sanitary: int
+    traffic: int
+    road: int
+    sidewalk: int
+    sewer: int
+    flood: int
+    bridge: int
+    electricWire: int
+    light: int
+    tree: int
 
 
 async def addData(data: dict) -> bool:
-    db = Prisma(auto_register=True)
-    await db.connect()
+    prisma = Prisma()
+    await prisma.connect()
     isSuccess = False
 
     try:
-        data = await ReportHistory.prisma().create(
+        await prisma.reporthistory.create(
             data={
-                "date": data["date"],
+                "date": datetime.strptime(data["date"], "%Y-%m-%d"),
                 "region": data["region"],
-                "obstracle": data["obstracle"],
-                "canel": data["canel"],
-                "security": data["security"],
-                "sanity": data["sanity"],
-                "traffic": data["traffic"],
-                "road": data["road"],
-                "sidewalk": data["sidewalk"],
-                "sewer": data["sewer"],
-                "flood": data["flood"],
-                "bridge": data["bridge"],
-                "electricWire": data["electricWire"],
-                "light": data["light"],
-                "tree": data["tree"],
+                "obstacle": int(data["obstacle"]),
+                "canal": int(data["canal"]),
+                "security": int(data["security"]),
+                "sanitary": int(data["sanitary"]),
+                "traffic": int(data["traffic"]),
+                "road": int(data["road"]),
+                "sidewalk": int(data["sidewalk"]),
+                "sewer": int(data["sewer"]),
+                "flood": int(data["flood"]),
+                "bridge": int(data["bridge"]),
+                "electricWire": int(data["electricWire"]),
+                "light": int(data["light"]),
+                "tree": int(data["tree"]),
             }
         )
-    except:
+    except Exception as e:
+        print(e)
         isSuccess = False
 
-    await db.disconnect()
+    await prisma.disconnect()
     return isSuccess
 
 
-asyncio.run(
-    addData(
-        {
-            "date": datetime.strptime("2021-09-02", "%Y-%m-%d"),
-            "region": "test",
-            "obstracle": 0,
-            "canel": 0,
-            "security": 0,
-            "sanity": 0,
-            "traffic": 0,
-            "road": 0,
-            "sidewalk": 0,
-            "sewer": 0,
-            "flood": 0,
-            "bridge": 0,
-            "electricWire": 0,
-            "light": 0,
-            "tree": 0,
-        }
+async def getData():
+    prisma = Prisma()
+    await prisma.connect()
+
+    data = await prisma.reporthistory.find_many(
+        where={"date": {"gt": datetime.now() - timedelta(days=7)}}
     )
-)
+
+    await prisma.disconnect()
+    return data
+
+
+async def preloadData() -> bool:
+    isSuccess = True
+    print("[Database] Preload Data")
+    with open("api/data.csv", "r", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            isSuccess = isSuccess & await addData(row)
+    return isSuccess
