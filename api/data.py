@@ -26,7 +26,7 @@ async def addData(data: dict) -> bool:
     prisma = Prisma()
     await prisma.connect()
     isSuccess = False
-
+    
     try:
         await prisma.reporthistory.create(
             data={
@@ -50,7 +50,7 @@ async def addData(data: dict) -> bool:
     except Exception as e:
         print(e)
         isSuccess = False
-
+        
     await prisma.disconnect()
     return isSuccess
 
@@ -60,7 +60,7 @@ async def getData():
     await prisma.connect()
 
     data = await prisma.reporthistory.find_many(
-        where={"date": {"gt": datetime.now() - timedelta(days=7)}}
+        where={"date": {"gte": datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(days=7)}}
     )
 
     await prisma.disconnect()

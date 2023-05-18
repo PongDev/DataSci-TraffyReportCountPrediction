@@ -5,7 +5,7 @@ from api.kafka import run_kafka_producer
 from api.log import sendLog
 
 
-@repeat(every(1).seconds)
+@repeat(every(20).seconds)
 def kafka_producer_job():
     run_kafka_producer()
 
@@ -15,5 +15,5 @@ def run_scheduler():
         try:
             run_pending()
             time.sleep(1)
-        except:
+        except Exception:
             sendLog("Scheduler", "Scheduler Error")

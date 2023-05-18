@@ -30,7 +30,10 @@ COPY --chown=user:container --from=build /app/build ./build
 COPY --chown=user:container main.py .
 COPY --chown=user:container api api
 COPY --chown=user:container prisma prisma
-COPY --chown=user:container model.pkl .
+COPY --chown=user:container road_model.pkl .
+COPY --chown=user:container sidewalk_model.pkl .
+COPY --chown=user:container light_model.pkl .
+COPY --chown=user:container kwaeng.pkl .
 
 RUN prisma generate
 

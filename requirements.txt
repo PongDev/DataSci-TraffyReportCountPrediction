@@ -5,3 +5,8 @@ prisma
 kafka-python
 schedule
 requests
+geopy
+pandas
+numpy
+scikit-learn
+
