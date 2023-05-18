@@ -6,6 +6,7 @@ kafka-python
 schedule
 requests
 geopy
-pandas
+numpy==1.22.3
+pandas==1.0.5
 scikit-learn
 
