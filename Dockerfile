@@ -25,9 +25,13 @@ USER user
 
 COPY --chown=user:container --from=build /app/build ./build
 COPY --chown=user:container main.py .
+COPY --chown=user:container api api
+COPY --chown=user:container model.pkl .
+
+RUN prisma generate
 
 ENV HOST=0.0.0.0
 ENV PORT=8000
 ENV EXTRA_ARGS=
 
-CMD uvicorn main:app --host $HOST --port $PORT $EXTRA_ARGS
+CMD prisma db push && uvicorn main:app --host $HOST --port $PORT $EXTRA_ARGS

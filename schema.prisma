@@ -1,0 +1,29 @@
+datasource db {
+    provider = "sqlite"
+    url      = "file:storage/database.db"
+}
+
+generator client {
+    provider             = "prisma-client-py"
+    recursive_type_depth = 5
+}
+
+model ReportHistory {
+    date         DateTime
+    region       String
+    obstacle     Int
+    canal        Int
+    security     Int
+    sanitary     Int
+    traffic      Int
+    road         Int
+    sidewalk     Int
+    sewer        Int
+    flood        Int
+    bridge       Int
+    electricWire Int
+    light        Int
+    tree         Int
+
+    @@id([date, region])
+}
