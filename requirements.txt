@@ -3,3 +3,4 @@ uvicorn[standard]
 autopep8
 prisma
 kafka-python
+schedule

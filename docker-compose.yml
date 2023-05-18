@@ -1,9 +1,23 @@
 version: "3"
 
 services:
-  datasci-traffy-report-count-prediction:
-    build: .
-    container_name: datasci-traffy-report-count-prediction
-    restart: always
+  datasci-traffy-report-count-prediction-zookeeper:
+    image: confluentinc/cp-zookeeper
+    container_name: datasci-traffy-report-count-prediction-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+  datasci-traffy-report-count-prediction-kafka:
+    image: confluentinc/cp-kafka
+    container_name: datasci-traffy-report-count-prediction-kafka
+    depends_on:
+      - datasci-traffy-report-count-prediction-zookeeper
     ports:
-      - 8000:8000
+      - 9092:9092
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=datasci-traffy-report-count-prediction-zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
