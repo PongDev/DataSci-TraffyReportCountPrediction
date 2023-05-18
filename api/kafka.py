@@ -5,18 +5,23 @@ import schedule
 
 
 def run_kafka_consumer():
-    kafka_broker = os.getenv("KAFKA_HOST", default="localhost:9092")
+    while True:
+        try:
+            kafka_broker = os.getenv("KAFKA_HOST", default="localhost:9092")
 
-    consumer = KafkaConsumer(
-        "data",
-        bootstrap_servers=[kafka_broker],
-        enable_auto_commit=True,
-        value_deserializer=lambda x: x.decode("utf-8"),
-    )
+            consumer = KafkaConsumer(
+                "data",
+                bootstrap_servers=[kafka_broker],
+                enable_auto_commit=True,
+                value_deserializer=lambda x: x.decode("utf-8"),
+            )
 
-    print(f"Starting Kafka Consumer: {kafka_broker}")
-    for message in consumer:
-        print(f"[{message.timestamp}:{message.offset}] {message.value}")
+            print(f"Starting Kafka Consumer: {kafka_broker}")
+            for message in consumer:
+                print(f"[{message.timestamp}:{message.offset}] {message.value}")
+        except:
+            print("Kafka Consumer: Error")
+            time.sleep(1)
 
 
 def run_kafka_producer():

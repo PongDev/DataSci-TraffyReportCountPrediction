@@ -11,5 +11,8 @@ def kafka_producer_job():
 
 def run_scheduler():
     while True:
-        run_pending()
-        time.sleep(1)
+        try:
+            run_pending()
+            time.sleep(1)
+        except:
+            print("Scheduler Error")
