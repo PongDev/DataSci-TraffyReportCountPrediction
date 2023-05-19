@@ -135,11 +135,13 @@ def predict():
     prediction_sidewalk = sidewalk_model.predict(input)
     prediction_light = light_model.predict(input)
     prediction_road = road_model.predict(input)
-    response = {}
+    response = []
+    tmp = {}
     for i, reg in enumerate(region_list):
-        response[reg + "_sidewalk_0"] = prediction_sidewalk[input[:, -2] == i][0]
-        response[reg + "_light_0"] = prediction_light[input[:, -2] == i][0]
-        response[reg + "_road_0"] = prediction_road[input[:, -2] == i][0]
+        tmp[reg + "_sidewalk"] = prediction_sidewalk[input[:, -2] == i][0]
+        tmp[reg + "_light"] = prediction_light[input[:, -2] == i][0]
+        tmp[reg + "_road"] = prediction_road[input[:, -2] == i][0]
+    response.append(tmp)
     for day in range(1, 3):
         temp = averages.copy()
         for j in range(6):
@@ -150,14 +152,12 @@ def predict():
         prediction_sidewalk = sidewalk_model.predict(input)
         prediction_light = light_model.predict(input)
         prediction_road = road_model.predict(input)
+        tmp = {}
         for i, reg in enumerate(region_list):
-            response[reg + f"_sidewalk_{day}"] = prediction_sidewalk[input[:, -2] == i][
-                0
-            ]
-            response[reg +
-                     f"_light_{day}"] = prediction_light[input[:, -2] == i][0]
-            response[reg +
-                     f"_road_{day}"] = prediction_road[input[:, -2] == i][0]
+            tmp[reg + f"_sidewalk"] = prediction_sidewalk[input[:, -2] == i][0]
+            tmp[reg + f"_light"] = prediction_light[input[:, -2] == i][0]
+            tmp[reg + f"_road"] = prediction_road[input[:, -2] == i][0]
+        response.append(tmp)
     return response
 
 
