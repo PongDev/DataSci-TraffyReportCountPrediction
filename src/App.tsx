@@ -1,13 +1,11 @@
-import "./App.css";
+import { PowerBI } from "./components/PowerBI";
+import { PredictContainer } from "./components/PredictContainer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
+    <div>
+      <PredictContainer />
+      <PowerBI />
     </div>
   );
 }
