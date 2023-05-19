@@ -161,7 +161,8 @@ def predict():
     return response
 
 
-app.mount("/", StaticFiles(directory=os.getcwd(), html=True), name="build")
+app.mount("/", StaticFiles(directory=os.getcwd() +
+          "/build", html=True), name="build")
 
 if __name__ == "__main__":
     kafkaConsumer = multiprocessing.Process(target=run_kafka_consumer)
