@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 type Props = {
-  updatePredictData: () => void;
+  updateVisualData: () => void;
 };
 
-export function PredictButton({ updatePredictData }: Props) {
+export function PredictButton({ updateVisualData }: Props) {
   const [isHover, setHover] = useState(false);
 
   const extraStyle = isHover
@@ -30,7 +30,7 @@ export function PredictButton({ updatePredictData }: Props) {
       }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={updatePredictData}
+      onClick={updateVisualData}
     >
       Predict!
     </div>

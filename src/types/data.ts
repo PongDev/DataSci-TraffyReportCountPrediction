@@ -18,3 +18,26 @@ export type PredictData = {
   กรุงเทพเหนือ_light: number;
   กรุงเทพเหนือ_road: number;
 };
+
+export type PastData = {
+  date: string;
+  region: string;
+  obstacle: number;
+  canal: number;
+  security: number;
+  sanitary: number;
+  traffic: number;
+  road: number;
+  sidewalk: number;
+  sewer: number;
+  flood: number;
+  bridge: number;
+  electricWire: number;
+  light: number;
+  tree: number;
+};
+
+export type VisualData = {
+  pastData: PastData[];
+  predictData: PredictData[];
+};
