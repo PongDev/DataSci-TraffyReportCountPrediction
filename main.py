@@ -137,9 +137,9 @@ def predict():
     prediction_road = road_model.predict(input)
     response = {}
     for i, reg in enumerate(region_list):
-        response[reg + "_sidewalk"] = prediction_sidewalk[input[:, -2] == i][0]
-        response[reg + "_light"] = prediction_light[input[:, -2] == i][0]
-        response[reg + "_road"] = prediction_road[input[:, -2] == i][0]
+        response[reg + "_sidewalk_0"] = prediction_sidewalk[input[:, -2] == i][0]
+        response[reg + "_light_0"] = prediction_light[input[:, -2] == i][0]
+        response[reg + "_road_0"] = prediction_road[input[:, -2] == i][0]
     for day in range(1, 3):
         temp = averages.copy()
         for j in range(6):
