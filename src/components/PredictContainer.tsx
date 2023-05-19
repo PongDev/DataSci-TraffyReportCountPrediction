@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { PredictButton } from "./PredictButton";
 
 export function PredictContainer() {
+  const [predictData, setPredict] = useState({});
+
   return (
     <div
       style={{
@@ -10,7 +13,7 @@ export function PredictContainer() {
         height: "10vh",
       }}
     >
-      <PredictButton />
+      <PredictButton setPredict={setPredict} />
     </div>
   );
 }
