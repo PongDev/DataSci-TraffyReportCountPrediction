@@ -11,15 +11,17 @@ COPY public public
 COPY src src
 RUN pnpm build
 
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
 WORKDIR /app
+
+RUN apt update
+RUN apt install -y nodejs
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN rm requirements.txt
 
-RUN apk add --update nodejs
 RUN chown -R 1001:1001 /usr/local/lib/python3.10/site-packages/prisma
 
 RUN addgroup --system --gid 1001 container
