@@ -3,11 +3,12 @@ import os
 import time
 import schedule
 from api.log import sendLog
-from api.fetchNewData import fetchData 
+from api.fetchNewData import fetchData
 import requests
 from api.data import addData
 from datetime import datetime
 import json
+
 
 def run_kafka_consumer():
     while True:
@@ -25,6 +26,7 @@ def run_kafka_consumer():
             for message in consumer:
                 data_list = json.loads(message.value)
                 for data in data_list:
+                    data["key"] = os.getenv("KEY", default="key")
                     requests.post(
                         f"http://localhost:{os.getenv('PORT', default=8000)}/add_data",
                         json=data,
@@ -33,7 +35,7 @@ def run_kafka_consumer():
                     "Kafka Consumer",
                     f"[{message.timestamp}:{message.offset}] {message.value}",
                 )
-            
+
         except Exception:
             sendLog("Kafka Consumer", "Kafka Consumer: Error")
             time.sleep(1)
@@ -49,4 +51,3 @@ def run_kafka_producer():
     sendLog("Kafka Producer", f"Execute Kafka Producer: {kafka_broker}")
     data = fetchData()
     producer.send("data", data.encode("utf-8"))
-   
