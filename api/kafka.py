@@ -28,7 +28,7 @@ def run_kafka_consumer():
                 for data in data_list:
                     data["key"] = os.getenv("KEY", default="key")
                     requests.post(
-                        f"http://localhost:{os.getenv('PORT', default=8000)}/add_data",
+                        f"http://{os.getenv('LOCALHOST', default='localhost')}:{os.getenv('PORT', default=8000)}/add_data",
                         json=data,
                     )
                 sendLog(

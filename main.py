@@ -107,7 +107,7 @@ def predict():
         "กรุงเทพใต้": [132.830, 777012, 5849.672514],
     }
     x = requests.get(
-        f"http://localhost:{os.getenv('PORT', default=8000)}/get_data",
+        f"http://{os.getenv('LOCALHOST', default='localhost')}:{os.getenv('PORT', default=8000)}/get_data",
     )
     df = pd.DataFrame(x.json())
     averages = []
